@@ -253,19 +253,8 @@
       timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
       if (totalSeconds === 0) {
-        clearInterval(intervalId);
-
-        const warningIntervalId = setInterval(function() {
-          let warningMinutes = Math.floor(warningSeconds / 60);
-          let warningSecondsRemaining = warningSeconds % 60;
-
-          if (warningSeconds === 0) {
-            clearInterval(warningIntervalId);
+            clearInterval(intervalId);
             resultElement.style.display = 'none';
-          } else {
-            warningSeconds--;
-          }
-        }, 1000);
       } else {
         totalSeconds--;
       }
