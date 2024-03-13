@@ -58,7 +58,8 @@
     #timer {
       position: fixed;
       top: 10;
-      left: 10;
+      left: 0;
+      font-family: sans-serif;
     }
   </style>
 </head>
@@ -249,7 +250,7 @@
       let minutes = Math.floor(totalSeconds / 60);
       let seconds = totalSeconds % 60;
 
-      timerElement.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+      timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
       if (totalSeconds === 0) {
         clearInterval(intervalId);
