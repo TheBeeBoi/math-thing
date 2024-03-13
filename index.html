@@ -254,7 +254,6 @@
 
       if (totalSeconds === 0) {
         clearInterval(intervalId);
-        alert(`Time's up! You have ${WARNING_MINUTES} minutes to finish up and submit.`);
 
         const warningIntervalId = setInterval(function() {
           let warningMinutes = Math.floor(warningSeconds / 60);
