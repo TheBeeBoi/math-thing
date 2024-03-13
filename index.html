@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>thing</title>
+  <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <style>
+    @import url("copernicus/stylesheet.css");
+    
+    .question {
+      margin-bottom: 20px;
+    }
+    .choices {
+      margin-left: 20px;
+    }
+    .choices label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    body {
+      text-align: center;
+      background-color: #f2f0e9;
+      color: #373429 /* #67655b /* */;
+      font-size: 32px;
+      font-family: 'Galaxie Copernicus';
+      font-weight: bolder;
+      max-width: 1280px;
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button {
+      background: #67655b;
+      background: radial-gradient(#67655b, #373429);
+      border: none;
+      padding: 12px;
+      color: #f2f0e9;
+      border-radius: 999px;
+      font-size: 24px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <form id="mcq-form"class="form"></form>
+
+  <div id="result"></div>
+
+  <script>
+    // TODO: move answers to serverside
+    const questions = [
+  {
+    question: "Simplify: $3(4x - 2y) - 2(x + 3y)$",
+    choices: ["A) $10x - 12y$", "B) $12y - 10x$", "C) 10x - 8y", "D) 8y - 12x"],
+    answer: "A"
+  },
+  {
+    question: "Evaluate: $\\frac{(6^2 - 4^2)}{(6 + 4)}$",
+    choices: ["A) $4$", "B) $5$", "C) $2$", "D) $65536$"],
+    answer: "C"
+  },
+  {
+    question: "Solve for x: $5(x - 3) = 25$",
+    choices: ["A) $3$", "B) $8$", "C) $4$", "D) $12$"],
+    answer: "B"
+  },
+  {
+    question: "Convert $\\frac{7}{8}$ to a percent.",
+    choices: ["A) $8.75$", "B) $875$", "C) $437.5$", "D) $87.5$"],
+    answer: "D"
+  },
+  {
+    question: "Find the area of a triangle with base 12 cm and height 9 cm.",
+    choices: ["A) $54$", "B) $45$", "C) $90$", "D) $108$"],
+    answer: "A"
+  },
+  {
+    question: "If Aarti and Minnie can do a job in 8 hours (working together at their respective constant rates) and Aarti can do the job alone in 12 hours. In how many hours can Minnie do the job alone?", 
+    choices: ["A) $6h$", "B) $24h$", "C) $12h", "D) $4h$"],
+    answer: "B"
+  },
+  {
+    question: "Expand: $(5x - 2)(3x + 4)$",
+    choices: ["A) $15x^2 - 14x - 8$", "B) $15x^2 + 12x - 2$", "C) $15x^2 + 9x - 12$", "D) $15x^2 + 14x - 8$"],
+    answer: "D"
+  },
+  {
+    question: "Evaluate: $(-3)^4$",
+    choices: ["A) $-81$", "B) $81$", "C) $90$", "D) $-27$"],
+    answer: "B"
+  },
+  {
+    question: "A cookie recipe calls for $\\frac{3}{4}$ cup of sugar for every 2 cups of flour.<br />How much sugar is needed for 6 cups of flour?" ,
+    choices: ["A) $\\frac{4}{21}$", "B) $\\frac{-21}{3}$", "C) $\\frac{21}{4}$", "D) $\\frac{44}{21}$"],
+    answer: "C"
+  },
+  {
+    question: "If machine X can produce 1,000 bolts in 8 hours and machine Y can produce 1,000 bolts in 24 hours. In how many hours can machines X and Y, working together at these constant rates, produce 1,000 bolts?",
+    choices: ["A) $6h$", "B) $20h$", "C) $16h$", "D) $2h$"],
+    answer: "A"
+  },
+  {
+    question: "Gordon Ramsey can cook a beef wellington in $48m$ and Guy Fieri can do it $72m$. <br />With the help of Arnold Schwarzenegger they finished the work in $24m$. Out of the total payment of $3000\$$ (very expensive), how much should be given to Arnold?",
+    choices: ["A) $500\$$", "B) $420\$$", "C) $980\$$", "D) $1000\$$"],
+    answer: "A"
+  },
+  {
+    question: "Find the volume of a rectangular prism with length $8ft$, width $5ft$, and height $6ft$.",
+    choices: ["A) $240ft^3$", "B) $360ft^3$", "C) $720ft^3$", "D) $270ft^3$"],
+    answer: "A"
+  },
+  {
+    question: "Convert $0.\\overline{8}$ to a fraction in simplest form.",
+    choices: ["A) $\\frac{32}{36}$", "B) $\\frac{16}{18}$", "C) $\\frac{8}{9}$", "D) The meaning of life"],
+    answer: "C"
+  },
+  {
+    question: "Find the volume of a cone that has a height of $5cm$ and a radius of $3cm$.",
+    choices: ["A) $12cm^3$", "B) $5cm^3$", "C) $3cm^3$", "D) $15cm^3$"],
+    answer: "B"
+  },
+  {
+    question: "What is the slope of the line $4x - 3y = 12$?",
+    choices: ["A) $\\frac{1}{2}$ or $0.5$", "B) $\\frac{3}{5}$ or $0.6$", "C) $1.0$", "D) $\\frac{3}{4}$ or $0.75$"],
+    answer: "D"
+  },
+  {
+    question: "Evaluate: $(6^3 \\cdot 2^2) / (3^4)$ (answer in the simplest form)",
+    choices: ["A) $32/3$", "B) $96/27$", "C) $30/42$", "D) $288/81$"],
+    answer: "A"
+  },
+  {
+    question: "An unknown number of hitmen promised to kill a list of 30 targets in 9 days but 5 of them were arrested. Instead, the remaining men did the job in 12 days. What was the original number of hitmen?",
+    choices: ["A) $22$ hitmen", "B) $20$ hitmen", "C) $6$ hitmen", "D) $93$ hitmen"],
+    answer: "B"
+  },
+  {
+    question: "Simplify: $(3x^2y^3)^2 / (2xy^2)$",
+    choices: ["A) $\\frac{9x^3y^4}{2}$", "B) $\\frac{3x^2y^3}{2xy^2}$", "C) $\\frac{20x}{13} + 10x^2$", "D) m a g i c"],
+    answer: "A"
+  },
+  {
+    question: "The cash prize is split so that Aarush gets 1/4 and Ramjeet gets the rest. If the total is $6000, how much did Ramjeet receive?",
+    choices: ["A) $4500\$$", "B) $8000\$$", "C) $1200\$$", "D) $\\frac{5\\textrm{ fish}}{2\\textrm{ birds}}$"],
+    answer: "A"
+  },
+  {
+    question: "The equation below shows how temperature F, measured in degrees Fahrenheit, relates to a temperature C, measured in degrees Celsius. Based on the equation, which of the following must be true?<br /><br />$C = \\frac{5}{9} (F - 32)$<br /><br />I. A temperature increase of $1^{&#x2218; f}$ is equivalent to a temperature increase of $59^{&#x2218; c}$. <br />II. A temperature increase of $1^{&#x2218; c}$ is equivalent to a temperature increase of $1.8^{&#x2218; f}$. <br />III. A temperature increase of $59^{&#x2218; f}$ is equivalent to a temperature increase of $1^{&#x2218; c}$",
+    choices: ["A) $$", "B) $$", "C) $$", "D) $$"],
+    answer: ""
+  }
+];
+
+    const form = document.getElementById('mcq-form');
+
+    function generateQuestions() {
+      questions.forEach((q, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('question');
+
+        const questionText = document.createElement('p');
+        questionText.innerHTML = `${index + 1}. ${q.question}`;
+        questionDiv.appendChild(questionText);
+
+        const choicesDiv = document.createElement('div');
+        choicesDiv.classList.add('choices');
+        q.choices.forEach(choice => {
+          const choiceLabel = document.createElement('label');
+          const choiceInput = document.createElement('input');
+          choiceInput.type = 'radio';
+          choiceInput.name = `q${index + 1}`;
+          choiceInput.value = choice.charAt(0);
+          choiceLabel.appendChild(choiceInput);
+          choiceLabel.appendChild(document.createTextNode(choice.slice(3)));
+          choicesDiv.appendChild(choiceLabel);
+        });
+        questionDiv.appendChild(choicesDiv);
+
+        form.appendChild(questionDiv);
+      });
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      const userAnswers = new FormData(document.getElementById('mcq-form'));
+      questions.forEach((q, index) => {
+        const userAnswer = userAnswers.get(`q${index + 1}`);
+        if (userAnswer === q.answer) {
+          score++;
+        }
+      });
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `You scored ${score} out of ${questions.length}`;
+    }
+
+    generateQuestions();
+  </script>
+</body>
+</html>
