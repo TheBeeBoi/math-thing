@@ -54,12 +54,20 @@
       font-size: 24px;
       margin: 10px;
     }
+
+    #timer {
+      position: fixed;
+      top: 10;
+      left: 10;
+    }
   </style>
 </head>
 
 <body>
   <form id="mcq-form" class="form"></form>
 
+  <div id="timer"></div>
+  
   <div id="result"></div>
 
   <button onclick="checkAnswers()" id="submit">Submit</button>
@@ -227,7 +235,41 @@
     }
 
     document.addEventListener("visibilitychange", kill);
-    document.addEventListener("blur", kill)
+    document.addEventListener("blur", kill);
+    const TOTAL_MINUTES = 15;
+    const WARNING_MINUTES = 2;
+
+    let totalSeconds = TOTAL_MINUTES * 60;
+    let warningSeconds = WARNING_MINUTES * 60;
+
+    const timerElement = document.getElementById('timer');
+    const resultElement = document.getElementById('result');
+
+    const intervalId = setInterval(function() {
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+
+      timerElement.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+      if (totalSeconds === 0) {
+        clearInterval(intervalId);
+        alert(`Time's up! You have ${WARNING_MINUTES} minutes to finish up and submit.`);
+
+        const warningIntervalId = setInterval(function() {
+          let warningMinutes = Math.floor(warningSeconds / 60);
+          let warningSecondsRemaining = warningSeconds % 60;
+
+          if (warningSeconds === 0) {
+            clearInterval(warningIntervalId);
+            resultElement.style.display = 'none';
+          } else {
+            warningSeconds--;
+          }
+        }, 1000);
+      } else {
+        totalSeconds--;
+      }
+    }, 1000);
   </script>
 </body>
 
