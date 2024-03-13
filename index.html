@@ -216,6 +216,8 @@
     generateQuestions();
 
     function kill() {
+      document.removeEventListener("blur", kill);
+      document.removeEventListener("visibilitychange", kill)
       alert("lol bozo no more quiz for you get dunked on and DISQUALIFIED");
       alert("cope l ratio");
       alert("this is just stalling so that teachers can notice your screen :P");
